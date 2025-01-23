@@ -12,6 +12,11 @@ class ArchitectCoder(AskCoder):
 
         if not content or not content.strip():
             return
+        
+        if not self.io.confirm_ask("Does the plan look good?"):
+            user_feedback = self.io.prompt_ask("What changes would you like to make to the plan?")
+            self.reflected_message = f"Please revise the plan based on user's feedback: {user_feedback}"
+            return
 
         if not self.io.confirm_ask("Edit the files?"):
             return

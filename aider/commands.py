@@ -353,6 +353,13 @@ class Commands:
 
         self._clear_chat_history()
 
+    # HACKY clear chat history method
+    def cmd_hack_clear(self):
+        self.coder.done_messages = []
+        # Keep the last two item from self.coder.cur_messages
+        if self.coder.cur_messages:
+            self.coder.done_messages.append(self.coder.cur_messages[-2]) 
+
     def _drop_all_files(self):
         self.coder.abs_fnames = set()
         self.coder.abs_read_only_fnames = set()

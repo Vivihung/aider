@@ -31,7 +31,7 @@ def get_windows_parent_process_name():
             if parent is None:
                 break
             parent_name = parent.name().lower()
-            if parent_name in ["powershell.exe", "cmd.exe"]:
+            if parent_name in ["pwsh.exe", "powershell.exe", "cmd.exe"]:
                 return parent_name
             current_process = parent
         return None
@@ -52,6 +52,8 @@ def run_cmd_subprocess(command, verbose=False, cwd=None, encoding=sys.stdout.enc
             parent_process = get_windows_parent_process_name()
             if parent_process == "powershell.exe":
                 command = f"powershell -Command {command}"
+            elif parent_process == "pwsh.exe":
+                command = f"pwsh -Command {command}"
 
         if verbose:
             print("Running command:", command)

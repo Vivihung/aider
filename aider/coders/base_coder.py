@@ -819,7 +819,10 @@ class Coder:
                 try:
                     if not self.io.placeholder:
                         self.copy_context()
-                    user_message = self.get_input()
+                    
+                    # Hack
+                    user_message = "/code Use the content of currentchunk to update this project to .NET 9"
+                    # user_message = self.get_input()
                     self.run_one(user_message, preproc)
                     self.show_undo_hint()
                 except KeyboardInterrupt:
@@ -1404,7 +1407,7 @@ class Coder:
                 dict(role="assistant", content="Ok"),
             ]
 
-        if edited and self.auto_test:
+        if self.auto_test:
             test_errors = self.commands.cmd_test(self.test_cmd)
             self.test_outcome = not test_errors
             if test_errors:
@@ -1468,6 +1471,9 @@ class Coder:
         res = "".join([line + "\n" for line in res])
         self.io.tool_error(res)
         self.io.offer_url(urls.token_limits)
+
+        #HACK: Clear chat history when token limit is reached
+        self.commands.cmd_hack_clear()
 
     def lint_edited(self, fnames):
         res = ""
